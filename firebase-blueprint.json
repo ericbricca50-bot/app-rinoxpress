@@ -45,6 +45,32 @@
         "registeredAt": { "type": "string" }
       },
       "required": ["id", "fullName", "email", "role"]
+    },
+    "Promotion": {
+      "title": "Promotion",
+      "description": "Promotional deals and offers in Rinoxpress",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "description": { "type": "string" },
+        "discountBadge": { "type": "string" },
+        "discountPercent": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "promoPrice": { "type": "number" },
+        "finalPrice": { "type": "number" },
+        "image": { "type": "string" },
+        "bannerImage": { "type": "string" },
+        "productId": { "type": "string" },
+        "productIds": { "type": "array" },
+        "includedProductNames": { "type": "array" },
+        "expiresAt": { "type": "string" },
+        "validUntil": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "title"]
     }
   },
   "firestore": {
@@ -55,6 +81,10 @@
     "/users/{userId}": {
       "schema": "UserProfile",
       "description": "Collection of user profiles"
+    },
+    "/promotions/{promoId}": {
+      "schema": "Promotion",
+      "description": "Collection of active promotional deals"
     }
   }
 }

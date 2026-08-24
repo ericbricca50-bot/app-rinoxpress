@@ -14,7 +14,8 @@ export const INITIAL_SETTINGS: AppSettings = {
   email: 'contacto@rinoxpress.com.ar',
   address: 'Córdoba Capital & envíos a todo el país',
   instagram: '@rinoxpress.cordoba',
-  workingHours: 'Lunes a Sábados 09:00 a 20:00 hs',
+  workingHours: 'Lunes a Viernes 09:30 a 17:30 hs | Sábados 09:30 a 13:30 hs',
+  openingHours: 'Lunes a Viernes 09:30 a 17:30 hs | Sábados 09:30 a 13:30 hs',
   bannerTitle: 'AROMAS QUE DEJAN HUELLA',
   bannerSubtitle: 'Perfumes, aromatizadores y mucho más para vos.',
   bannerBadge: 'Línea Exclusiva 2026'

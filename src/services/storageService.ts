@@ -60,10 +60,20 @@ export const StorageService = {
   // SETTINGS
   getSettings(): AppSettings {
     const loaded = safeGet<AppSettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+    let shouldSave = false;
     // If it has the old dummy placeholder number or missing, migrate to official Rinoxpress number
     if (!loaded.whatsappNumber || loaded.whatsappNumber === '5493512345678') {
       loaded.whatsappNumber = WHATSAPP_NUMBER;
       loaded.whatsappDisplayNumber = '+54 9 351 802-9702';
+      shouldSave = true;
+    }
+    // Update working hours if outdated or missing
+    if (!loaded.workingHours || loaded.workingHours === 'Lunes a Sábados 09:00 a 20:00 hs') {
+      loaded.workingHours = 'Lunes a Viernes 09:30 a 17:30 hs | Sábados 09:30 a 13:30 hs';
+      shouldSave = true;
+    }
+    loaded.openingHours = loaded.workingHours;
+    if (shouldSave) {
       this.saveSettings(loaded);
     }
     return loaded;

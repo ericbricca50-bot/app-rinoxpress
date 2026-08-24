@@ -2,16 +2,14 @@ import {
   collection, 
   doc, 
   setDoc, 
-  getDoc, 
   getDocs, 
   updateDoc, 
   query, 
-  orderBy, 
   where, 
   onSnapshot, 
   Unsubscribe 
 } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db, handleFirestoreError, OperationType } from '../firebase';
 import { Order, OrderItem, OrderStatus } from '../types';
 import { StorageService } from './storageService';
 
@@ -124,7 +122,6 @@ export const FirebaseOrderService = {
       snapshot.forEach(docSnap => {
         const orderNum = docSnap.data().orderNumber;
         if (orderNum && typeof orderNum === 'string') {
-          // Check for RX-XXXX pattern (excluding RX-TEST)
           if (orderNum.startsWith('RX-') && !orderNum.includes('TEST')) {
             const numericPart = parseInt(orderNum.replace(/[^0-9]/g, ''), 10);
             if (!isNaN(numericPart) && numericPart > maxNumber) {
@@ -134,7 +131,6 @@ export const FirebaseOrderService = {
         }
       });
 
-      // Also check local storage orders
       const localOrders = StorageService.getOrders();
       localOrders.forEach(o => {
         if (o.orderNumber && o.orderNumber.startsWith('RX-') && !o.orderNumber.includes('TEST')) {
@@ -206,6 +202,7 @@ export const FirebaseOrderService = {
       console.log(`[FirebaseOrderService] Order ${orderInput.orderNumber} successfully saved to Firestore.`);
     } catch (firebaseErr) {
       console.error('[FirebaseOrderService] Error writing order to Firestore:', firebaseErr);
+      // Fallback local addition is still preserved below
     }
 
     // 2. Parse & update local storage cache for instant reactive UI
@@ -224,7 +221,6 @@ export const FirebaseOrderService = {
       let firestoreOrders: Order[] = [];
 
       if (userId) {
-        // Query by userId
         const qUser = query(ordersRef, where('userId', '==', userId));
         const snap = await getDocs(qUser);
         snap.forEach(d => {
@@ -232,7 +228,6 @@ export const FirebaseOrderService = {
         });
       }
 
-      // If user has a phone, query by phone as well for guest orders placed previously
       if (userPhone && userPhone.trim().length > 5) {
         const cleanPhone = userPhone.replace(/[^0-9]/g, '');
         const allSnap = await getDocs(ordersRef);
@@ -245,7 +240,6 @@ export const FirebaseOrderService = {
         });
       }
 
-      // Combine with local orders in case of offline additions
       const localOrders = StorageService.getOrders();
       localOrders.forEach(lo => {
         if (
@@ -258,11 +252,9 @@ export const FirebaseOrderService = {
         }
       });
 
-      // Sort newest first
       return firestoreOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     } catch (err) {
       console.error('[FirebaseOrderService] Error fetching user orders:', err);
-      // Fallback to local storage
       const local = StorageService.getOrders();
       return local
         .filter(o => (userId && o.userId === userId) || !userId)
@@ -283,7 +275,6 @@ export const FirebaseOrderService = {
         orders.push(parseFirestoreOrder(docSnap.id, docSnap.data()));
       });
 
-      // Merge with local orders that might not be synced yet
       const localOrders = StorageService.getOrders();
       localOrders.forEach(lo => {
         if (!orders.some(o => o.orderNumber === lo.orderNumber || o.id === lo.id)) {
@@ -309,7 +300,6 @@ export const FirebaseOrderService = {
         liveOrders.push(parseFirestoreOrder(d.id, d.data()));
       });
 
-      // Fallback merge
       const localOrders = StorageService.getOrders();
       localOrders.forEach(lo => {
         if (!liveOrders.some(o => o.orderNumber === lo.orderNumber || o.id === lo.id)) {
@@ -345,7 +335,6 @@ export const FirebaseOrderService = {
   async seedTestOrderIfNotExists(currentUserId?: string): Promise<Order> {
     const testOrderNumber = 'RX-TEST-001';
     
-    // Check if RX-TEST-001 already exists in Firestore
     try {
       const ordersRef = collection(db, ORDERS_COLLECTION);
       const snapshot = await getDocs(ordersRef);
@@ -365,7 +354,6 @@ export const FirebaseOrderService = {
       console.warn('[FirebaseOrderService] Checking test order in Firestore failed, will create:', err);
     }
 
-    // Create the test order
     const testItems: OrderItem[] = [
       {
         productId: 'prod-1',

@@ -179,6 +179,7 @@ export interface AppSettings {
   address: string;
   instagram: string;
   workingHours: string;
+  openingHours?: string;
   bannerTitle: string;
   bannerSubtitle: string;
   bannerBadge: string;

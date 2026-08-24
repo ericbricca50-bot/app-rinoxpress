@@ -87,9 +87,11 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ settings }) 
             </button>
           </div>
 
-          <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[10px] text-gray-500">
-            <span>{settings.openingHours}</span>
-            <span className="text-[#25D366] font-bold">Showroom Córdoba Online</span>
+          <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[10px] text-gray-500 gap-2">
+            <span className="truncate" title={settings.workingHours || settings.openingHours}>
+              🕒 {settings.workingHours || settings.openingHours || 'Lun a Vie 09:30-17:30 | Sáb 09:30-13:30'}
+            </span>
+            <span className="text-[#25D366] font-bold whitespace-nowrap">Showroom Online</span>
           </div>
         </div>
       )}
