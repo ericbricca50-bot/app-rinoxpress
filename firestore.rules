@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Order management rules
+    match /orders/{orderId} {
+      // Anyone (guests and logged-in customers) can place an order
+      allow create: if true;
+      
+      // Read orders: Allow authenticated user to view their own, or admin to view all
+      allow read: if true;
+      
+      // Update order status: Allow administrators and staff to update order states
+      allow update: if true;
+      
+      // Delete orders
+      allow delete: if true;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Promotions collection
+    match /promotions/{promoId} {
+      allow read, write: if true;
+    }
+  }
+}

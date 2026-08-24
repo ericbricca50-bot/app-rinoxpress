@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "Order": {
+      "title": "Order",
+      "description": "A customer fragrance order placed in Rinoxpress",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "description": "Unique identifier of the order" },
+        "orderNumber": { "type": "string", "description": "Display order number e.g. RX-0001" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "ISO timestamp of order creation" },
+        "customerName": { "type": "string", "description": "Full name of the customer" },
+        "customerPhone": { "type": "string", "description": "Phone or WhatsApp contact number" },
+        "customerCity": { "type": "string", "description": "City or locality" },
+        "customerProvince": { "type": "string", "description": "Province in Argentina" },
+        "customerComments": { "type": "string", "description": "Additional notes or instructions" },
+        "items": {
+          "type": "array",
+          "description": "Snapshot list of ordered products and prices"
+        },
+        "subtotal": { "type": "number", "description": "Subtotal before discounts" },
+        "discount": { "type": "number", "description": "Total promotional discount applied" },
+        "total": { "type": "number", "description": "Final total payable" },
+        "status": {
+          "type": "string",
+          "enum": ["Pendiente", "Confirmado", "Preparando", "Enviado", "Finalizado", "Cancelado"],
+          "description": "Current lifecycle status of the order"
+        },
+        "userId": { "type": "string", "description": "User ID if registered, or null/guest" },
+        "whatsappSent": { "type": "boolean", "description": "Whether WhatsApp message was prepared and opened" },
+        "whatsappMessage": { "type": "string", "description": "The exact formatted WhatsApp message" }
+      },
+      "required": ["orderNumber", "createdAt", "customerName", "customerPhone", "items", "total", "status"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile and role information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "city": { "type": "string" },
+        "role": { "type": "string", "enum": ["Cliente", "Integrante", "Administrador"] },
+        "registeredAt": { "type": "string" }
+      },
+      "required": ["id", "fullName", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of all placed orders"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user profiles"
+    }
+  }
+}

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%" fill="none">
+  <!-- Rinoxpress Official Logo: Pure Red #E61E24 / #EE1D23 -->
+  <g fill="#EE1D23" stroke="#EE1D23">
+    <!-- 1. TOP DIAMOND -->
+    <!-- Outer Diamond Contour -->
+    <path 
+      d="M 148 55 L 252 55 L 288 88 L 200 135 L 112 88 Z" 
+      stroke-width="10" 
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      fill="none" 
+    />
+    
+    <!-- Diamond Top Crown Facet Lines -->
+    <line x1="112" y1="88" x2="288" y2="88" stroke-width="8" stroke-linecap="round" />
+    <line x1="148" y1="55" x2="162" y2="88" stroke-width="8" stroke-linecap="round" />
+    <line x1="252" y1="55" x2="238" y2="88" stroke-width="8" stroke-linecap="round" />
+    
+    <!-- Diamond Lower Pavilion Facet Lines to Point -->
+    <line x1="162" y1="88" x2="200" y2="135" stroke-width="8" stroke-linecap="round" />
+    <line x1="238" y1="88" x2="200" y2="135" stroke-width="8" stroke-linecap="round" />
+
+    <!-- 2. RING / CIRCULAR BAND -->
+    <!-- Upper Ring Arc (stroke width ~ 18px) -->
+    <path 
+      d="M 124 235 A 108 108 0 0 1 276 235" 
+      stroke-width="18" 
+      stroke-linecap="round"
+      fill="none" 
+    />
+
+    <!-- Lower Ring Arc -->
+    <path 
+      d="M 124 290 A 108 108 0 0 0 276 290" 
+      stroke-width="18" 
+      stroke-linecap="round"
+      fill="none" 
+    />
+
+    <!-- 3. RHINO SILHOUETTE (Inside upper semicircle) -->
+    <!-- Solid Red Stylized Rhino facing right -->
+    <path 
+      d="M 175 230 
+         C 172 225 174 218 178 214 
+         C 182 210 188 209 194 209 
+         C 198 205 204 204 210 205 
+         C 214 200 220 202 225 206 
+         C 230 207 236 210 240 216 
+         C 246 217 252 216 256 218 
+         C 252 220 247 222 244 223 
+         C 241 225 235 228 230 229 
+         C 225 230 220 229 217 230 
+         L 214 235 
+         L 208 235 
+         L 209 230 
+         L 198 230 
+         L 197 235 
+         L 192 235 
+         L 193 230 
+         L 185 230 
+         L 183 235 
+         L 178 235 
+         Z" 
+      fill="#EE1D23" 
+      stroke="none"
+    />
+    
+    <!-- Accent horn detail -->
+    <path 
+      d="M 239 213 C 243 209 250 208 253 211 C 248 214 244 216 239 217 Z" 
+      fill="#EE1D23" 
+      stroke="none"
+    />
+
+    <!-- Slit cut across rhino flank (matching the white highlight in official logo) -->
+    <path 
+      d="M 194 211 L 195 230 M 199 211 L 200 230" 
+      stroke="#FFFFFF" 
+      stroke-width="2.5" 
+      stroke-linecap="round"
+    />
+
+    <!-- 4. TEXT: RINO XPRESS -->
+    <!-- Red Sans-Serif Capital Letters exactly matching the brand wordmark -->
+    <text 
+      x="200" 
+      y="272" 
+      font-family="'Plus Jakarta Sans', Arial, Helvetica, sans-serif" 
+      font-size="34" 
+      font-weight="800" 
+      letter-spacing="3" 
+      text-anchor="middle" 
+      fill="#EE1D23" 
+      stroke="none"
+    >RINO XPRESS</text>
+  </g>
+</svg>
